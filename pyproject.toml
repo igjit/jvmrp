@@ -2,7 +2,7 @@
 name = "jvmrp"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["igjit"]
 readme = "README.md"
 packages = [{include = "jvmrp", from = "src"}]
 
