@@ -10,6 +10,9 @@ packages = [{include = "jvmrp", from = "src"}]
 python = "^3.12"
 
 
+[tool.poetry.group.test.dependencies]
+pytest = "^8.2.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
