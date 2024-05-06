@@ -21,12 +21,24 @@ def read_class(f):
     major_version = read_u2(f)
     constant_pool_count = read_u2(f)
     constant_pool = [read_cp_info(f) for _ in range(constant_pool_count - 1)]
+    access_flags = read_u2(f)
+    this_class = read_u2(f)
+    this_class_name_index = constant_pool[this_class - 1]["name_index"]
+    this_class_name = constant_pool[this_class_name_index - 1]["bytes"]
+    super_class = read_u2(f)
+    super_class_name_index = constant_pool[super_class - 1]["name_index"]
+    super_class_name = constant_pool[super_class_name_index - 1]["bytes"]
 
     return {
         "magic": magic,
         "minor_version": minor_version,
         "major_version": major_version,
         "constant_pool": constant_pool,
+        "access_flags": access_flags,
+        "this_class": this_class,
+        "this_class_name": this_class_name,
+        "super_class": super_class,
+        "super_class_name": super_class_name,
     }
 
 
