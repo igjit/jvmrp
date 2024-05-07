@@ -28,6 +28,14 @@ def read_class(f):
     super_class = read_u2(f)
     super_class_name_index = constant_pool[super_class - 1]["name_index"]
     super_class_name = constant_pool[super_class_name_index - 1]["bytes"]
+    interfaces_count = read_u2(f)
+    # TODO
+    if interfaces_count > 0:
+        raise Exception()
+    fields_count = read_u2(f)
+    # TODO
+    if fields_count > 0:
+        raise Exception()
 
     return {
         "magic": magic,
