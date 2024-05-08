@@ -15,6 +15,12 @@ def read_u2(f):
     return int.from_bytes(f.read(2), "big")
 
 
+def read_u4(f):
+    u2_1 = read_u2(f)
+    u2_2 = read_u2(f)
+    return (u2_1 << 16) + u2_2
+
+
 def read_class(f):
     magic = f.read(4)
     minor_version = read_u2(f)
