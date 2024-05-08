@@ -42,6 +42,8 @@ def read_class(f):
     # TODO
     if fields_count > 0:
         raise Exception()
+    methods_count = read_u2(f)
+    methods = [read_method_info(f, constant_pool) for _ in range(methods_count)]
 
     return {
         "magic": magic,
@@ -53,6 +55,7 @@ def read_class(f):
         "this_class_name": this_class_name,
         "super_class": super_class,
         "super_class_name": super_class_name,
+        "methods": methods,
     }
 
 
@@ -75,3 +78,74 @@ def read_cp_info(f):
             raise ValueError(f"Unknown tag: {tag}")
 
     return {"tag": tag, **info}
+
+
+def read_method_info(f, constant_pool):
+    access_flags = read_u2(f)
+    name_index = read_u2(f)
+    name = constant_pool[name_index - 1]["bytes"]
+    descriptor_index = read_u2(f)
+    descriptor = constant_pool[descriptor_index - 1]["bytes"]
+    attributes_count = read_u2(f)
+    attributes = [read_attribute(f, constant_pool) for _ in range(attributes_count)]
+
+    return {
+        "access_flags": access_flags,
+        "name_index": name_index,
+        "name": name,
+        "descriptor_index": descriptor_index,
+        "descriptor": descriptor,
+        "attributes_count": attributes_count,
+        "attributes": attributes,
+    }
+
+
+def read_attribute(f, constant_pool):
+    attribute_name_index = read_u2(f)
+    attribute_length = read_u4(f)
+    attribute_name = constant_pool[attribute_name_index - 1]["bytes"]
+
+    match attribute_name:
+        case b"Code":
+            max_stack = read_u2(f)
+            max_locals = read_u2(f)
+            code_length = read_u4(f)
+            code = [b for b in f.read(code_length)]
+            exception_table_length = read_u2(f)
+            # TODO
+            if exception_table_length > 0:
+                raise Exception()
+            exception_table = []
+            attributes_count = read_u2(f)
+            attributes = [
+                read_attribute(f, constant_pool) for _ in range(attributes_count)
+            ]
+            attribute = {
+                "max_stack": max_stack,
+                "max_locals": max_locals,
+                "code_length": code_length,
+                "code": code,
+                "exception_table_length": exception_table_length,
+                "exception_table": exception_table,
+                "attributes_count": attributes_count,
+                "attributes": attributes,
+            }
+        case b"LineNumberTable":
+            line_number_table_length = read_u2(f)
+            line_number_table = [
+                {"start_pc": read_u2(f), "line_number": read_u2(f)}
+                for _ in range(line_number_table_length)
+            ]
+            attribute = {
+                "line_number_table_length": line_number_table_length,
+                "line_number_table": line_number_table,
+            }
+        case _:
+            raise Exception(f"Not implemented: {attribute_name}")
+
+    return {
+        "attribute_name_index": attribute_name_index,
+        "attribute_name": attribute_name,
+        "attribute_length": attribute_length,
+        **attribute,
+    }
