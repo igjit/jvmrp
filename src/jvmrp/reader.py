@@ -44,6 +44,8 @@ def read_class(f):
         raise Exception()
     methods_count = read_u2(f)
     methods = [read_method_info(f, constant_pool) for _ in range(methods_count)]
+    attributes_count = read_u2(f)
+    attributes = [read_attribute(f, constant_pool) for _ in range(attributes_count)]
 
     return {
         "magic": magic,
@@ -56,6 +58,7 @@ def read_class(f):
         "super_class": super_class,
         "super_class_name": super_class_name,
         "methods": methods,
+        "attributes": attributes,
     }
 
 
