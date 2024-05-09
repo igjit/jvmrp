@@ -121,6 +121,9 @@ def read_attribute(f, constant_pool):
                 read_attribute(f, constant_pool) for _ in range(attributes_count)
             ]
             attribute = {
+                "attribute_name_index": attribute_name_index,
+                "attribute_name": attribute_name,
+                "attribute_length": attribute_length,
                 "max_stack": max_stack,
                 "max_locals": max_locals,
                 "code_length": code_length,
@@ -137,15 +140,13 @@ def read_attribute(f, constant_pool):
                 for _ in range(line_number_table_length)
             ]
             attribute = {
+                "attribute_name_index": attribute_name_index,
+                "attribute_name": attribute_name,
+                "attribute_length": attribute_length,
                 "line_number_table_length": line_number_table_length,
                 "line_number_table": line_number_table,
             }
         case _:
             raise Exception(f"Not implemented: {attribute_name}")
 
-    return {
-        "attribute_name_index": attribute_name_index,
-        "attribute_name": attribute_name,
-        "attribute_length": attribute_length,
-        **attribute,
-    }
+    return attribute
