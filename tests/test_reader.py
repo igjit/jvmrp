@@ -12,3 +12,4 @@ def test_read_class():
         cls = read_class(f)
 
     assert cls["magic"] == b"\xca\xfe\xba\xbe"
+    assert cls["this_class_name"] == b"Hello"
