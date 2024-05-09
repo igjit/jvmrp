@@ -146,6 +146,12 @@ def read_attribute(f, constant_pool):
                 "line_number_table_length": line_number_table_length,
                 "line_number_table": line_number_table,
             }
+        case b"SourceFile":
+            attribute = {
+                "attribute_name_index": attribute_name_index,
+                "attribute_name": attribute_name,
+                "sourcefile_index": read_u2(f),
+            }
         case _:
             raise Exception(f"Not implemented: {attribute_name}")
 
