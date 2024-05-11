@@ -16,3 +16,9 @@ instruction_set = [
     Instruction("return", 177, 0),
     Instruction("invokevirtual", 182, 2),
 ]
+
+opcode_to_instruction = dict(zip([i.opcode for i in instruction_set], instruction_set))
+
+
+def instruction_of(opcode):
+    return opcode_to_instruction[opcode]
