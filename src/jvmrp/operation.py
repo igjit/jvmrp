@@ -27,3 +27,50 @@ def read_operation(code, state):
     state.pc += 1 + inst.arity
 
     return Operation(inst.opcode, operands)
+
+
+def ldc(op, constant_pool, state):
+    index = op.operands[0]
+    bytes = constant_pool[constant_pool[index - 1]["string_index"] - 1]["bytes"]
+    state.stack.append(bytes.decode())
+
+
+def getstatic(op, constant_pool, state):
+    cp_index = as_u2(*op.operands)
+    symbol_name_index = constant_pool[cp_index - 1]
+    cls = constant_pool[
+        constant_pool[symbol_name_index["class_index"] - 1]["name_index"] - 1
+    ]["bytes"]
+    field = constant_pool[
+        constant_pool[symbol_name_index["name_and_type_index"] - 1]["name_index"] - 1
+    ]["bytes"]
+    name = f"{cls.decode()}.{field.decode()}"
+    state.stack.append(name)
+
+
+def invokevirtual(op, constant_pool, state):
+    index = as_u2(*op.operands)
+    callee = constant_pool[constant_pool[index - 1]["name_and_type_index"] - 1]
+    method_name = constant_pool[callee["name_index"] - 1]["bytes"]
+    # TODO
+    if method_name != b"println":
+        raise Exception(f"Not implemented: {method_name}")
+    args = state.stack.pop()
+    object_name = state.stack.pop()
+    print(args)
+
+
+def return_(op, constant_pool, state):
+    pass
+
+
+dispatch_table = {
+    18: ldc,
+    177: return_,
+    178: getstatic,
+    182: invokevirtual,
+}
+
+
+def as_u2(byte1, byte2):
+    return (byte1 << 8) + byte2
