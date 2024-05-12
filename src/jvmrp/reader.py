@@ -21,7 +21,15 @@ def read_u4(f):
     return (u2_1 << 16) + u2_2
 
 
-def read_class(f):
+def read_class(file):
+    if hasattr(file, "read"):
+        return _read_class(file)
+    else:
+        with open(file, "rb") as f:
+            return _read_class(f)
+
+
+def _read_class(f):
     magic = f.read(4)
     minor_version = read_u2(f)
     major_version = read_u2(f)

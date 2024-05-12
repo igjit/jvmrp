@@ -8,9 +8,7 @@ from jvmrp.vm import VM
 
 def test_execute_hello(capsys):
     class_file = Path(__file__).parent / "data" / "Hello.class"
-
-    with open(class_file, "rb") as f:
-        java_class = read_class(f)
+    java_class = read_class(class_file)
 
     vm = VM()
     vm.execute(java_class)
