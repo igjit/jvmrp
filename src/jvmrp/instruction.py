@@ -1,13 +1,11 @@
-class Instruction:
-    def __init__(self, name, opcode, arity):
-        self.name = name
-        self.opcode = opcode
-        self.arity = arity
+from dataclasses import dataclass
 
-    def __repr__(self):
-        return (
-            f"Instruction(name='{self.name}', opcode={self.opcode}, arity={self.arity})"
-        )
+
+@dataclass
+class Instruction:
+    name: str
+    opcode: int
+    arity: int
 
 
 instruction_set = [
