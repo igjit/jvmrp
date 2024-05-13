@@ -64,7 +64,12 @@ def return_(op, constant_pool, state):
     pass
 
 
+def bipush(op, constant_pool, state):
+    state.stack.append(op.operands[0])
+
+
 dispatch_table = {
+    16: bipush,
     18: ldc,
     177: return_,
     178: getstatic,

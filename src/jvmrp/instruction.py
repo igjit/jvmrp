@@ -9,6 +9,7 @@ class Instruction:
 
 
 instruction_set = [
+    Instruction("bipush", 16, 1),
     Instruction("ldc", 18, 1),
     Instruction("getstatic", 178, 2),
     Instruction("return", 177, 0),
