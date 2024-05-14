@@ -1,6 +1,6 @@
 import pytest
 
-from jvmrp.operation import Operation, State, read_operation
+from jvmrp.operation import Operation, State, dispatch_table, read_operation
 
 
 def test_read_operation():
@@ -14,3 +14,11 @@ def test_read_operation():
     op = read_operation(code, state)
     assert op == Operation(18, [3])
     assert state.pc == 6
+
+
+def test_iconst_i():
+    iconst_2 = dispatch_table[5]
+    state = State()
+
+    iconst_2(None, {}, state)
+    assert state.stack == [2]

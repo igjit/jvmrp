@@ -68,7 +68,18 @@ def bipush(op, constant_pool, state):
     state.stack.append(op.operands[0])
 
 
+def iconst_i(i):
+    return lambda op, constant_pool, state: state.stack.append(i)
+
+
 dispatch_table = {
+    2: iconst_i(-1),
+    3: iconst_i(0),
+    4: iconst_i(1),
+    5: iconst_i(2),
+    6: iconst_i(3),
+    7: iconst_i(4),
+    8: iconst_i(5),
     16: bipush,
     18: ldc,
     177: return_,
