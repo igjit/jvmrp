@@ -7,7 +7,7 @@ from jvmrp.instruction import instruction_of
 class State:
     pc: int = 1
     stack: list = field(default_factory=list)
-    frame: list = field(default_factory=list)
+    frame: dict = field(default_factory=dict)
 
 
 @dataclass
