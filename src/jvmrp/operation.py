@@ -72,6 +72,13 @@ def iconst_i(i):
     return lambda op, constant_pool, state: state.stack.append(i)
 
 
+def istore_n(n):
+    def f(op, constant_pool, state):
+        state.frame[n] = state.stack.pop()
+
+    return f
+
+
 dispatch_table = {
     2: iconst_i(-1),
     3: iconst_i(0),
@@ -82,6 +89,10 @@ dispatch_table = {
     8: iconst_i(5),
     16: bipush,
     18: ldc,
+    59: istore_n(0),
+    60: istore_n(1),
+    61: istore_n(2),
+    62: istore_n(3),
     177: return_,
     178: getstatic,
     182: invokevirtual,

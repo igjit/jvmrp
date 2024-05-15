@@ -22,3 +22,12 @@ def test_iconst_i():
 
     iconst_2(None, {}, state)
     assert state.stack == [2]
+
+
+def test_istore_n():
+    istore_2 = dispatch_table[61]
+    state = State(stack=[34])
+
+    istore_2(None, {}, state)
+    assert state.stack == []
+    assert state.frame == {2: 34}
