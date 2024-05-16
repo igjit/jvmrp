@@ -31,3 +31,11 @@ def test_istore_n():
     istore_2(None, {}, state)
     assert state.stack == []
     assert state.frame == {2: 34}
+
+
+def test_iload_n():
+    iload_2 = dispatch_table[28]
+    state = State(frame={2: 34})
+
+    iload_2(None, {}, state)
+    assert state.stack == [34]

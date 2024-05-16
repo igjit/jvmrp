@@ -79,6 +79,10 @@ def istore_n(n):
     return f
 
 
+def iload_n(n):
+    return lambda op, constant_pool, state: state.stack.append(state.frame[n])
+
+
 dispatch_table = {
     2: iconst_i(-1),
     3: iconst_i(0),
@@ -89,6 +93,10 @@ dispatch_table = {
     8: iconst_i(5),
     16: bipush,
     18: ldc,
+    26: iload_n(0),
+    27: iload_n(1),
+    28: iload_n(2),
+    29: iload_n(3),
     59: istore_n(0),
     60: istore_n(1),
     61: istore_n(2),
