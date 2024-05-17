@@ -39,3 +39,11 @@ def test_iload_n():
 
     iload_2(None, {}, state)
     assert state.stack == [34]
+
+
+def test_isub():
+    isub = dispatch_table[100]
+    state = State(stack=[5, 2])
+
+    isub(None, {}, state)
+    assert state.stack == [3]

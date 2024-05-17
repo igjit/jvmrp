@@ -83,6 +83,16 @@ def iload_n(n):
     return lambda op, constant_pool, state: state.stack.append(state.frame[n])
 
 
+def int_arith(a):
+    def f(op, constant_pool, state):
+        value2 = state.stack.pop()
+        value1 = state.stack.pop()
+        result = a(value1, value2)
+        state.stack.append(result)
+
+    return f
+
+
 dispatch_table = {
     2: iconst_i(-1),
     3: iconst_i(0),
@@ -101,6 +111,11 @@ dispatch_table = {
     60: istore_n(1),
     61: istore_n(2),
     62: istore_n(3),
+    96: int_arith(int.__add__),
+    100: int_arith(int.__sub__),
+    104: int_arith(int.__mul__),
+    108: int_arith(int.__floordiv__),
+    112: int_arith(int.__mod__),
     177: return_,
     178: getstatic,
     182: invokevirtual,
