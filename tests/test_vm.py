@@ -18,3 +18,11 @@ def test_execute_hello(capsys):
 
     captured = capsys.readouterr()
     assert captured.out == "Hello, world.\n"
+
+
+def test_execute_arith(capsys):
+    class_file = Path(__file__).parent / "data" / "Arith.class"
+    execute_class_file(class_file)
+
+    captured = capsys.readouterr()
+    assert captured.out == "42\n"
