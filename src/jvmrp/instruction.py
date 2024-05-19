@@ -31,6 +31,7 @@ instruction_set = [
     Instruction("imul", 104, 0),
     Instruction("idiv", 108, 0),
     Instruction("irem", 112, 0),
+    Instruction("iinc", 132, 2),
     Instruction("getstatic", 178, 2),
     Instruction("return", 177, 0),
     Instruction("invokevirtual", 182, 2),

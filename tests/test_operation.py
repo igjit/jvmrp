@@ -47,3 +47,11 @@ def test_isub():
 
     isub(None, {}, state)
     assert state.stack == [3]
+
+
+def test_iinc():
+    iinc = dispatch_table[132]
+    state = State(frame={1: 10, 2: 20})
+
+    iinc(Operation(132, [2, 4]), {}, state)
+    assert state.frame == {1: 10, 2: 24}

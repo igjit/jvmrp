@@ -93,6 +93,12 @@ def int_arith(a):
     return f
 
 
+def iinc(op, constant_pool, state):
+    index = op.operands[0]
+    const = op.operands[1]
+    state.frame[index] += const
+
+
 dispatch_table = {
     2: iconst_i(-1),
     3: iconst_i(0),
@@ -116,6 +122,7 @@ dispatch_table = {
     104: int_arith(int.__mul__),
     108: int_arith(int.__floordiv__),
     112: int_arith(int.__mod__),
+    132: iinc,
     177: return_,
     178: getstatic,
     182: invokevirtual,
