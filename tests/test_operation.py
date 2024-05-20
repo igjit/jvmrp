@@ -55,3 +55,15 @@ def test_iinc():
 
     iinc(Operation(132, [2, 4]), {}, state)
     assert state.frame == {1: 10, 2: 24}
+
+
+def test_if_icmpcond():
+    if_icmplt = dispatch_table[161]
+
+    state = State(pc=4, stack=[2, 3])
+    if_icmplt(Operation(161, [0, 10]), {}, state)
+    assert state.pc == 11
+
+    state = State(pc=4, stack=[3, 2])
+    if_icmplt(Operation(161, [0, 10]), {}, state)
+    assert state.pc == 4
