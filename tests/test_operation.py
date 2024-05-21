@@ -67,3 +67,15 @@ def test_if_icmpcond():
     state = State(pc=4, stack=[3, 2])
     if_icmplt(Operation(161, [0, 10]), {}, state)
     assert state.pc == 4
+
+
+def test_ifcond():
+    ifeq = dispatch_table[153]
+
+    state = State(pc=4, stack=[0])
+    ifeq(Operation(161, [0, 10]), {}, state)
+    assert state.pc == 11
+
+    state = State(pc=4, stack=[1])
+    ifeq(Operation(161, [0, 10]), {}, state)
+    assert state.pc == 4

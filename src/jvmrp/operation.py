@@ -112,6 +112,18 @@ def if_icmpcond(cond):
     return f
 
 
+def ifcond(cond):
+    def f(op, constant_pool, state):
+        adr = state.pc - 3
+        offset = as_s2(*op.operands)
+        value = state.stack.pop()
+
+        if cond(value, 0):
+            state.pc = adr + offset
+
+    return f
+
+
 dispatch_table = {
     2: iconst_i(-1),
     3: iconst_i(0),
@@ -136,6 +148,12 @@ dispatch_table = {
     108: int_arith(int.__floordiv__),
     112: int_arith(int.__mod__),
     132: iinc,
+    153: ifcond(int.__eq__),
+    154: ifcond(int.__ne__),
+    155: ifcond(int.__lt__),
+    156: ifcond(int.__ge__),
+    157: ifcond(int.__gt__),
+    158: ifcond(int.__le__),
     159: if_icmpcond(int.__eq__),
     160: if_icmpcond(int.__ne__),
     161: if_icmpcond(int.__lt__),
