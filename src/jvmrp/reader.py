@@ -163,6 +163,14 @@ def read_attribute(f, constant_pool):
                 "attribute_name": attribute_name,
                 "sourcefile_index": read_u2(f),
             }
+        case b"StackMapTable":
+            # TODO: parse stack_map_frame
+            f.read(attribute_length)
+            attribute = {
+                "attribute_name_index": attribute_name_index,
+                "attribute_name": attribute_name,
+                "attribute_length": attribute_length,
+            }
         case _:
             raise Exception(f"Not implemented: {attribute_name}")
 
