@@ -79,3 +79,11 @@ def test_ifcond():
     state = State(pc=4, stack=[1])
     ifeq(Operation(161, [0, 10]), {}, state)
     assert state.pc == 4
+
+
+def test_goto():
+    goto = dispatch_table[167]
+
+    state = State(pc=4)
+    goto(Operation(167, [0, 10]), {}, state)
+    assert state.pc == 11

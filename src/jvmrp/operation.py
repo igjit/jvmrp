@@ -124,6 +124,12 @@ def ifcond(cond):
     return f
 
 
+def goto(op, constant_pool, state):
+    adr = state.pc - 3
+    offset = as_s2(*op.operands)
+    state.pc = adr + offset
+
+
 dispatch_table = {
     2: iconst_i(-1),
     3: iconst_i(0),
@@ -160,6 +166,7 @@ dispatch_table = {
     162: if_icmpcond(int.__ge__),
     163: if_icmpcond(int.__gt__),
     164: if_icmpcond(int.__le__),
+    167: goto,
     177: return_,
     178: getstatic,
     182: invokevirtual,

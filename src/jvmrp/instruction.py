@@ -44,6 +44,7 @@ instruction_set = [
     Instruction("if_icmpge", 162, 2),
     Instruction("if_icmpgt", 163, 2),
     Instruction("if_icmple", 164, 2),
+    Instruction("goto", 167, 2),
     Instruction("getstatic", 178, 2),
     Instruction("return", 177, 0),
     Instruction("invokevirtual", 182, 2),
