@@ -1,3 +1,4 @@
+import textwrap
 from pathlib import Path
 
 import pytest
@@ -26,3 +27,36 @@ def test_execute_arith(capsys):
 
     captured = capsys.readouterr()
     assert captured.out == "42\n"
+
+
+def test_execute_fizz_buzz(capsys):
+    class_file = Path(__file__).parent / "data" / "FizzBuzz.class"
+    execute_class_file(class_file)
+
+    captured = capsys.readouterr()
+    expected = textwrap.dedent(
+        """\
+        1
+        2
+        Fizz
+        4
+        Buzz
+        Fizz
+        7
+        8
+        Fizz
+        Buzz
+        11
+        Fizz
+        13
+        14
+        FizzBuzz
+        16
+        17
+        Fizz
+        19
+        Buzz
+        """
+    )
+
+    assert captured.out == expected
